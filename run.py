@@ -1,16 +1,47 @@
 import sys
+import psycopg2
+import psycopg2.extras
+
+
+
+host_name = "localhost"
+database = "test"
+username = "hudak.pavol"
+pwd = ""
+port_id = 5432
+
 
 
 def start():
     print("Start")
+    conn = None
 
+    try:
+        conn = psycopg2.connect(
+            host = host_name,
+            database = database,
+            user = username,
+            password = pwd,
+            port = port_id
+        )
+        print("Database connected")
+
+    except Exception as error:
+        print("Error:", error)
+
+    finally:
+        if conn is not None:
+            conn.close()
+            print("Database disconnected")
 
 def init():
     print("Init")
 
 
 
+
 if __name__ == "__main__":
+    
     if len(sys.argv) > 1:
         commad = sys.argv[1]
         if commad == "start":
