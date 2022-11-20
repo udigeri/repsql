@@ -16,6 +16,7 @@ def start():
     print("Start")
     conn = None
 
+    # CONNECTION TO DATABASE
     try:
         conn = psycopg2.connect(
             host = host_name,
@@ -25,6 +26,20 @@ def start():
             port = port_id
         )
         print("Database connected")
+
+        # CREATE DATABASE TABLE
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur.execute("DROP TABLE IF EXISTS users")
+        create_script = '''
+        CREATE TABLE IF NOT EXISTS users (
+            id int PRIMARY KEY,
+            name varchar(100) NOT NULL,
+            surname varchar(100)
+        )
+        '''
+        cur.execute(create_script)
+        conn.commit()
+
 
     except Exception as error:
         print("Error:", error)
