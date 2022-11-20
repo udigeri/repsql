@@ -40,6 +40,54 @@ def start():
         cur.execute(create_script)
         conn.commit()
 
+        #INSERT DATA INTO USERS TABLE
+        insert_script = '''
+        INSERT INTO users (id, name, surname) values (%s, %s, %s)
+        '''
+        insert_values = [(1, "Pavol", "Hudak"), (2, "Matej", "Hudak")]
+        for insert_value in insert_values:
+            cur.execute(insert_script, insert_value)
+        conn.commit()
+
+
+        #SELECT DATA FROM USERS TABLE
+        cur.execute('SELECT * FROM users')
+        records = cur.fetchall()
+        print("Data: \n")
+        for record in records:
+            print(record)
+        print()
+
+        #UPDATE DATA FROM USERS TABLE
+        update_script = '''
+        UPDATE users SET surname = 'Hudakovci' WHERE id = 1
+        '''
+        cur.execute(update_script)
+        conn.commit()
+
+        #SELECT DATA FROM USERS TABLE
+        cur.execute('SELECT * FROM users')
+        records = cur.fetchall()
+        print("Data: \n")
+        for record in records:
+            print(record)
+        print()
+
+        #DELETE DATA FROM USERS TABLE
+        delete_script = '''
+        DELETE FROM users WHERE name = %s
+        '''
+        delete_id = ('Pavol',)
+        cur.execute(delete_script, delete_id)
+        conn.commit()
+
+        #SELECT DATA FROM USERS TABLE
+        cur.execute('SELECT * FROM users')
+        records = cur.fetchall()
+        print("Data: \n")
+        for record in records:
+            print(record)
+        print()
 
     except Exception as error:
         print("Error:", error)
